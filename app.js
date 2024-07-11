@@ -6,7 +6,7 @@ import bodyParser from "body-parser";
 const app = express();
 const port = 3200;
 
-await mongoose.connect('mongodb://localhost:27017/habitTracker', {
+await mongoose.connect('mongodb+srv://duduvishnupkl:password%40123@cluster0.ecop73e.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0/habitTracker', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
