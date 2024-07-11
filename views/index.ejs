@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        .habit-status {
+            display: flex;
+            justify-content:flex-start;
+        }
+        .habit-status button {
+            width: 40%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Habit Tracker</h1>
+        <form action="/add" method="post">
+            <div class="form-group">
+                <input type="text" name="name" class="form-control" placeholder="New Habit" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Habit</button>
+        </form>
+        <hr>
+        <h2>Current Habits</h2>
+        <div>
+            <% habits.forEach(habit => { %>
+                <h3 style="color: blue;"><%= habit.name %></h3>
+                <div class="habit-status">
+                    <% for (let i = 1; i > 0; i--) { %>
+                        <%  let date = new Date()%>
+                        <%  date.setDate(date.getDate()-i)%>
+                        <%  let formattedDate = date.toISOString().split('T')[0]%>
+                        <% let status = habit.track.get(formattedDate) || 'None'%>
+                        <!-- <h3><%= status %></h3> -->
+                        <form action="/update" method="post">
+                            <input type="hidden" name="habitId" value="<%= habit._id %>">
+                            <input type="hidden" name="date" value="<%= formattedDate %>">
+                            <button type="submit" name="status" value="Done" class="btn <%= status === 'Done' ? 'btn-success' : 'btn-outline-success' %>">Done</button>
+                            <button type="submit" name="status" value="Not done" class="btn <%= status === 'Not done' ? 'btn-danger' : 'btn-outline-danger' %>">Not done</button>
+                            <button type="submit" name="status" value="None" class="btn <%= status === 'None' ? 'btn-secondary' : 'btn-outline-secondary' %>">None</button>
+                        </form>
+                    <% } %>
+                </div>
+                <hr>
+            <% }) %>
+        </div>
+    </div>
+</body>
+</html>
